@@ -4,12 +4,9 @@ This repository contains the codes I used to learn Kubernetes. The aim is to lea
 
 # Prerequisites
 
-* AWS Account 
-* kubectl
-* eksctl
-* Kotlin
+* Docker Installed
 
-# Setup
+# Basics
 
 Learn basics of Kubernetes deployment and kubectl commands.
 
@@ -17,16 +14,25 @@ Learn basics of Kubernetes deployment and kubectl commands.
 
 Minikube is a developer version of a production grade Kubernetes clusters like Amazon EKS. This is meant  for local development only.
 
-1. Install Minikube
+1. Install Docker https://docs.docker.com/get-docker/
+2. Install kubectl https://kubernetes.io/docs/tasks/tools/
+   ```
+   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+   chmod +x ./kubectl
+   sudo mv ./kubectl /usr/local/bin/kubectl
+   sudo chown root: /usr/local/bin/kubectl
+   kubectl version --client
+   ```
+3. Install Minikube
     ```
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
     sudo install minikube-darwin-amd64 /usr/local/bin/minikube
     ```
-2. Start Minikube
+4. Start Minikube
     ```
     minikube start
     ```
-3. Start a nginx application in your Minikube cluster
+5. Start a nginx application in your Minikube cluster
     ```
     # deploy nginx
     kubectl create deployment hello-minikube --image=docker.io/nginx:1.23
@@ -35,8 +41,8 @@ Minikube is a developer version of a production grade Kubernetes clusters like A
     # forward localport 7080 to your nginx 80 port
     kubectl port-forward service/hello-minikube 7080:80
     ```
-4. Check your local nginx instance at http://localhost:7080/.
-5. Destroy deployment and service (clean-up)
+6. Check your local nginx instance at http://localhost:7080/.
+7. Destroy deployment and service (clean-up)
     ```
     kubectl delete service hello-minikube
     kubectl delete deployment hello-minikube
