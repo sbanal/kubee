@@ -96,7 +96,7 @@ spec:
 ```
 3. Deploy the nginx resources to your Kubernetes cluster
 ```
-kubee % kubectl apply -f basics/declarative/deployment.yml 
+kubectl apply -f basics/declarative/deployment.yml 
 kubectl apply -f basics/declarative/service.yml   
 ```
 4. Open a new terminal and start Minikube tunnel to enable us to browse the homepage of the deployed nginx
