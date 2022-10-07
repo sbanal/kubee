@@ -8,7 +8,7 @@ This repository contains the codes I used to learn Kubernetes. The aim is to lea
 
 # Basics
 
-Learn basics of Kubernetes deployment and kubectl commands.
+Learn basics of Kubernetes deployment and kubectl commands using a local Kubernetes cluster called Minikube.
 
 ## Install a Kubernetes Cluster for local development
 
