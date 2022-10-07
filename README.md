@@ -114,3 +114,7 @@ kubectl delete services nginx-declarative
 kubectl delete deployment nginx-declarative
 ```
 
+* Reference
+  * [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+  * [LoadBalancer Service](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
+  
