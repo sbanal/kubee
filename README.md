@@ -192,7 +192,7 @@ Learn the basics of Kubernetes deployment using Amazon EKS. EKS is a managed Kub
     ```
 # Microservice Deployment
 
-In this section, we will deploy a microservice which composed of a React front end application and a Spring Boot backend application. We deployed a LoadBalancer service in the front end to handle ingress requests and a ClusterIP service for the backend. 
+In this section, we will deploy a microservice which composed of a [React front end](https://github.com/sbanal/kubee-frontend) application and a [Spring Boot backend](https://github.com/sbanal/kubee-backend) application. We deployed a LoadBalancer service in the front end to handle ingress requests and a ClusterIP service for the backend. 
 
 ## Deploy Backend
 
