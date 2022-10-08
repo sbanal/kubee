@@ -110,11 +110,88 @@ kubectl get services nginx-declarative
 5. Browse your nginx homepage at http://[EXTERNAL-IP]
 6. Clean-up resources. Don't forget to stop your minikube tunnel process first before running commands below.
 ```
-kubectl delete services nginx-declarative
-kubectl delete deployment nginx-declarative
+kubectl delete -f basics/declarative/service.yml
+kubectl delete -f basics/declarative/deployment.yml  
 ```
 
 * Reference
   * [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
   * [LoadBalancer Service](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
   
+# Basics in the Cloud
+
+Learn the basics of Kubernetes deployment using Amazon EKS. EKS is a managed Kubernetes cluster provided by AWS.
+
+## Create an Amazon EKS Cluster
+
+1. Install AWS CLI https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+2. Configure AWS CLI credentials https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-creds
+3. Install EKS CLI command called eksctl https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
+4. Create an EKS Cluster
+    ```
+    eksctl create cluster -f basics-cloud/kubee-cluster.yml
+    ``` 
+    WARNING: Do not forget to destroy this cluster. This will cost you money.
+    The output of the command should show a message similar to below:
+    ```
+    [✔]  EKS cluster "kubee-cluster" in "ap-southeast-2" region is ready
+    ```
+5. Check cluster and node status 
+   ```
+   eksctl get cluster
+   kubectl get nodes -o wide
+   ```
+
+## Deploy nginx to Amazon EKS
+
+1. Deploy the nginx resources to your Kubernetes cluster
+    ```
+    kubectl apply -f basics/declarative/deployment.yml 
+    kubectl apply -f basics/declarative/service.yml   
+    ```
+1. Check status of nodes. Wait for a few minutes and run command below sevral times until there are 2 ready pods.
+    ```
+    kubectl get all
+    ```
+    Output:
+    ```
+    NAME                                     READY   STATUS    RESTARTS   AGE
+    pod/nginx-declarative-6d4cf56db6-8vxrl   1/1     Running   0          3m9s
+    pod/nginx-declarative-6d4cf56db6-nhf5r   1/1     Running   0          3m9s
+    
+    NAME                        TYPE           CLUSTER-IP       EXTERNAL-IP                                                                    PORT(S)        AGE
+    service/kubernetes          ClusterIP      10.100.0.1       <none>                                                                         443/TCP        29m
+    service/nginx-declarative   LoadBalancer   10.100.115.161   acd6cbaa6e7134c80a5162fe848b3e21-1422704247.ap-southeast-2.elb.amazonaws.com   80:32487/TCP   3m2s
+    
+    NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+    deployment.apps/nginx-declarative   2/2     2            2           3m9s
+    
+    NAME                                           DESIRED   CURRENT   READY   AGE
+    replicaset.apps/nginx-declarative-6d4cf56db6   2         2         2       3m9s
+    ```
+2. Get the load balancer DNS. Copy the value in the column "EXTERNAL-IP". 
+    ```
+    kubectl get service nginx-declarative
+    ```
+3. Open a browser and enter http://[EXTERNAL-IP] to open the nginx home page.
+4. Clean-up.
+    ```
+    kubectl delete -f basics/declarative/service.yml
+    kubectl delete -f basics/declarative/deployment.yml  
+    ```
+
+### Delete your EKS cluster
+
+1. Delete your cluster
+    ```
+    eksctl delete cluster -f basics-cloud/kubee-cluster.yml
+    ```
+2. Check Cluster status. Wait for a few minutes before running this command.
+    ```
+    eksctl get cluster
+    ```
+   
+* References
+   * [AWS EKS pricing](https://aws.amazon.com/eks/pricing/)
+   * [eksctl create cluster](https://eksctl.io/usage/creating-and-managing-clusters/)
+   * [Estimated annual cost of this cluster](https://calculator.aws/#/estimate?id=03636d4199a0e931a35772d9c412fcbb823fa5f6)
