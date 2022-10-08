@@ -190,7 +190,52 @@ Learn the basics of Kubernetes deployment using Amazon EKS. EKS is a managed Kub
     ```
     eksctl get cluster
     ```
-   
+# Microservice Deployment
+
+In this section, we will deploy a microservice which composed of a React front end application and a Spring Boot backend application. We deployed a LoadBalancer service in the front end to handle ingress requests and a ClusterIP service for the backend. 
+
+## Deploy Backend
+
+1. Deploy the backend microservice
+    ```
+    kubectl apply -f app/kubee-backend-deploy.yml
+    kubectl apply -f app/kubee-backend-service.yml
+    ```
+
+## Deploy Frontend
+1. Deploy the backend microservice
+    ```
+    kubectl apply -f app/kubee-frontend-deploy.yml
+    kubectl apply -f app/kubee-frontend-service.yml
+    ```
+2. Open a new terminal and start Minikube tunnel to enable us to browse the homepage of the deployed nginx
+    ```
+    minikube tunnel
+    ```
+3. In another terminal get the IP address of the nginx service. Copy the IP Address under "EXTERNAL-IP" column.
+    ```
+    kubectl get services kubee-frontend
+    ```
+4. Visit the frontend site http://[EXTERNAL-IP]:3000
+5. Tail the frontend pod logs
+    ```
+    kubectl get pods | grep frontend
+    kubectl get logs [pod name]
+    ```
+
+## Clean-Up resources
+
+1. Destroy backend resources
+    ```
+    kubectl delete -f app/kubee-backend-service.yml
+    kubectl delete -f app/kubee-backend-deploy.yml
+    ```
+1. Destroy frontend resources
+    ```
+    kubectl delete -f app/kubee-frontend-service.yml
+    kubectl delete -f app/kubee-frontend-deploy.yml
+    ```
+
 * References
    * [AWS EKS pricing](https://aws.amazon.com/eks/pricing/)
    * [eksctl create cluster](https://eksctl.io/usage/creating-and-managing-clusters/)
