@@ -203,7 +203,7 @@ In this section, we will deploy a microservice which composed of a [React front 
     ```
 
 ## Deploy Frontend
-1. Deploy the backend microservice
+1. Deploy the frontend
     ```
     kubectl apply -f app/kubee-frontend-deploy.yml
     kubectl apply -f app/kubee-frontend-service.yml
@@ -216,8 +216,8 @@ In this section, we will deploy a microservice which composed of a [React front 
     ```
     kubectl get services kubee-frontend
     ```
-4. Visit the frontend site http://[EXTERNAL-IP]:3000. Enter your name in the input control and press the submit button. The backend service should be able to respond with a "hello [your input]" message.
-5. Tail the frontend pod logs
+4. Visit the frontend site http://[EXTERNAL-IP]:3000. Enter your name in the input control and press the submit button. The backend service should be able to respond with a "Hello [your input]" message.
+5. View the frontend pod logs to check the http activity of your requests.
     ```
     kubectl get pods | grep frontend
     kubectl get logs [pod name]
