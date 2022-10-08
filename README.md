@@ -57,7 +57,7 @@ Minikube is a developer version of a production grade Kubernetes clusters like A
 
 In the previous section, we installed Minikube and deployed a nginx web server using imperative method of deployment. In imperative deployment, we use kubectl commands to specify the details of the artifacts we want to deploy. This method of deployment is only meant for adhoc kind of deployment like to test stuff. There is an alternative approach where the definitions of the artifacts (or the parameters of your commands in imperative way) are defined in a YAML file. They call this declarative method of deployment. In this section, we will deploy nginx using declarative method.
 
-1. Define deployment YAML [deployment.yml](basics/declarative/deployment.yml)
+1. Define deployment YAML [deployment.yml](basics/deployment.yml)
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -79,7 +79,7 @@ spec:
         - image: nginx:1.16
           name: nginx
 ```
-2. Define service YAML [service.yml](basics/declarative/service.yml)
+2. Define service YAML [service.yml](basics/service.yml)
 ```
 apiVersion: v1
 kind: Service
@@ -96,8 +96,8 @@ spec:
 ```
 3. Deploy the nginx resources to your Kubernetes cluster
 ```
-kubectl apply -f basics/declarative/deployment.yml 
-kubectl apply -f basics/declarative/service.yml   
+kubectl apply -f basics/deployment.yml 
+kubectl apply -f basics/service.yml   
 ```
 4. Open a new terminal and start Minikube tunnel to enable us to browse the homepage of the deployed nginx
 ```
@@ -110,8 +110,8 @@ kubectl get services nginx-declarative
 5. Browse your nginx homepage at http://[EXTERNAL-IP]
 6. Clean-up resources. Don't forget to stop your minikube tunnel process first before running commands below.
 ```
-kubectl delete -f basics/declarative/service.yml
-kubectl delete -f basics/declarative/deployment.yml  
+kubectl delete -f basics/service.yml
+kubectl delete -f basics/deployment.yml  
 ```
 
 * Reference
@@ -146,8 +146,8 @@ Learn the basics of Kubernetes deployment using Amazon EKS. EKS is a managed Kub
 
 1. Deploy the nginx resources to your Kubernetes cluster
     ```
-    kubectl apply -f basics/declarative/deployment.yml 
-    kubectl apply -f basics/declarative/service.yml   
+    kubectl apply -f basics/deployment.yml 
+    kubectl apply -f basics/service.yml   
     ```
 1. Check status of nodes. Wait for a few minutes and run command below sevral times until there are 2 ready pods.
     ```
@@ -176,8 +176,8 @@ Learn the basics of Kubernetes deployment using Amazon EKS. EKS is a managed Kub
 3. Open a browser and enter http://[EXTERNAL-IP] to open the nginx home page.
 4. Clean-up.
     ```
-    kubectl delete -f basics/declarative/service.yml
-    kubectl delete -f basics/declarative/deployment.yml  
+    kubectl delete -f basics/service.yml
+    kubectl delete -f basics/deployment.yml  
     ```
 
 ### Delete your EKS cluster
