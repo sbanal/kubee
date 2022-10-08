@@ -190,13 +190,17 @@ Learn the basics of Kubernetes deployment using Amazon EKS. EKS is a managed Kub
     ```
     eksctl get cluster
     ```
-# Microservice Deployment
+# Microservice
 
-In this section, we will deploy a microservice which composed of a [React front end](https://github.com/sbanal/kubee-frontend) application and a [Spring Boot backend](https://github.com/sbanal/kubee-backend) application. We deployed a LoadBalancer service in the front end to handle ingress requests and a ClusterIP service for the backend. 
+In this section, we will deploy a microservice which composed of a [React front end](https://github.com/sbanal/kubee-frontend) application and a [Spring Boot backend](https://github.com/sbanal/kubee-backend) application. A LoadBalancer service is deployed in the front end to handle ingress requests and a ClusterIP service for the backend. Minikube is used to test this in your local dev environment.
 
 ## Deploy Backend
 
-1. Deploy the backend microservice
+1. Start Minikube
+    ```
+    minikube start
+    ```
+2. Deploy the backend microservice
     ```
     kubectl apply -f app/kubee-backend-deploy.yml
     kubectl apply -f app/kubee-backend-service.yml
