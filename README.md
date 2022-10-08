@@ -212,7 +212,7 @@ In this section, we will deploy a microservice which composed of a React front e
     ```
     minikube tunnel
     ```
-3. In another terminal get the IP address of the nginx service. Copy the IP Address under "EXTERNAL-IP" column.
+3. In another terminal get the IP address of the frontend service. Copy the IP Address under "EXTERNAL-IP" column.
     ```
     kubectl get services kubee-frontend
     ```
