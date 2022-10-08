@@ -216,7 +216,7 @@ In this section, we will deploy a microservice which composed of a React front e
     ```
     kubectl get services kubee-frontend
     ```
-4. Visit the frontend site http://[EXTERNAL-IP]:3000
+4. Visit the frontend site http://[EXTERNAL-IP]:3000. Enter your name in the input control and press enter. The backend service should be able to respond with a "hello [your input]" message.
 5. Tail the frontend pod logs
     ```
     kubectl get pods | grep frontend
