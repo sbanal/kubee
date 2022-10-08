@@ -58,61 +58,61 @@ Minikube is a developer version of a production grade Kubernetes clusters like A
 In the previous section, we installed Minikube and deployed a nginx web server using imperative method of deployment. In imperative deployment, we use kubectl commands to specify the details of the artifacts we want to deploy. This method of deployment is only meant for adhoc kind of deployment like to test stuff. There is an alternative approach where the definitions of the artifacts (or the parameters of your commands in imperative way) are defined in a YAML file. They call this declarative method of deployment. In this section, we will deploy nginx using declarative method.
 
 1. Define deployment YAML [deployment.yml](basics/deployment.yml)
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: nginx
-  name: nginx-declarative
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: nginx
-  template:
+    ```
+    apiVersion: apps/v1
+    kind: Deployment
     metadata:
       labels:
         app: nginx
+      name: nginx-declarative
     spec:
-      containers:
-        - image: nginx:1.16
-          name: nginx
-```
+      replicas: 2
+      selector:
+        matchLabels:
+          app: nginx
+      template:
+        metadata:
+          labels:
+            app: nginx
+        spec:
+          containers:
+            - image: nginx:1.16
+              name: nginx
+    ```
 2. Define service YAML [service.yml](basics/service.yml)
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-declarative
-  labels:
-    app: nginx-lb-service
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
-  selector:
-    app: nginx
-```
+    ```
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: nginx-declarative
+      labels:
+        app: nginx-lb-service
+    spec:
+      type: LoadBalancer
+      ports:
+        - port: 80
+      selector:
+        app: nginx
+    ```
 3. Deploy the nginx resources to your Kubernetes cluster
-```
-kubectl apply -f basics/deployment.yml 
-kubectl apply -f basics/service.yml   
-```
+    ```
+    kubectl apply -f basics/deployment.yml 
+    kubectl apply -f basics/service.yml   
+    ```
 4. Open a new terminal and start Minikube tunnel to enable us to browse the homepage of the deployed nginx
-```
-minikube tunnel
-```
-4. In another terminal get the IP address of the nginx service. Copy the IP Address under "EXTERNAL-IP" column.
-```
-kubectl get services nginx-declarative
-```
-5. Browse your nginx homepage at http://[EXTERNAL-IP]
-6. Clean-up resources. Don't forget to stop your minikube tunnel process first before running commands below.
-```
-kubectl delete -f basics/service.yml
-kubectl delete -f basics/deployment.yml  
-```
+    ```
+    minikube tunnel
+    ```
+5. In another terminal get the IP address of the nginx service. Copy the IP Address under "EXTERNAL-IP" column.
+    ```
+    kubectl get services nginx-declarative
+    ```
+6. Browse your nginx homepage at http://[EXTERNAL-IP]
+7. Clean-up resources. Don't forget to stop your minikube tunnel process first before running commands below.
+    ```
+    kubectl delete -f basics/service.yml
+    kubectl delete -f basics/deployment.yml  
+    ```
 
 * Reference
   * [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
