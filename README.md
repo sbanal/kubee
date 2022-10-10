@@ -240,6 +240,52 @@ In this section, we will deploy a microservice which composed of a [React front 
     kubectl delete -f app/kubee-frontend-deploy.yml
     ```
 
+# Microservice in EKS
+
+Let's deploy our microservice application to a production Kubernetes cluster.
+
+1. Create an EKS Cluster
+    ```
+    eksctl create cluster -f basics-cloud/kubee-cluster.yml
+    ``` 
+   WARNING: Do not forget to destroy this cluster. This will cost you money.
+   The output of the command should show a message similar to below:
+    ```
+    [✔]  EKS cluster "kubee-cluster" in "ap-southeast-2" region is ready
+    ```
+2. Check cluster and node status
+   ```
+   eksctl get cluster
+   kubectl get nodes -o wide
+   ```
+3. Deploy the backend
+    ```
+    kubectl apply -f app/kubee-backend-deploy.yml
+    kubectl apply -f app/kubee-backend-service.yml
+    ```
+4. Deploy the frontend
+    ```
+    kubectl apply -f app/kubee-frontend-deploy.yml
+    kubectl apply -f app/kubee-frontend-service.yml
+    ```
+5. Get the IP address of the frontend service. Copy the IP Address under "EXTERNAL-IP" column.
+    ```
+    kubectl get services kubee-frontend
+    ```
+6. Visit the frontend site http://[EXTERNAL-IP]:3000. Enter your name in the input control and press the submit button. The backend service should be able to respond with a "Hello [your input]" message.
+7. Delete your workload
+    ```
+    kubectl delete -f app/kubee-frontend-service.yml
+    kubectl delete -f app/kubee-frontend-deploy.yml
+    kubectl delete -f app/kubee-backend-service.yml
+    kubectl delete -f app/kubee-backend-deploy.yml
+    ```
+8. Delete cluster and check cluster status. Wait for a few minutes before running this command.
+    ```
+    eksctl delete cluster -f basics-cloud/kubee-cluster.yml
+    eksctl get cluster
+    ```
+
 * References
    * [AWS EKS pricing](https://aws.amazon.com/eks/pricing/)
    * [eksctl create cluster](https://eksctl.io/usage/creating-and-managing-clusters/)
