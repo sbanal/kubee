@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubee-frontend-deploy
+  labels:
+    name: kubee-frontend-deploy
+    app: kubee-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: kubee-frontend-pod
+      app: kubee-app
+  template:
+    metadata:
+      name: kubee-frontend-pod
+      labels:
+        name: kubee-frontend-pod
+        app: kubee-app
+    spec:
+      containers:
+        - name: kubee-backend
+          image: sbanal/kubee-frontend2:latest
+          ports:
+            - containerPort: 80

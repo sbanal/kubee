@@ -290,3 +290,30 @@ Let's deploy our microservice application to a production Kubernetes cluster.
    * [AWS EKS pricing](https://aws.amazon.com/eks/pricing/)
    * [eksctl create cluster](https://eksctl.io/usage/creating-and-managing-clusters/)
    * [Estimated annual cost of this cluster](https://calculator.aws/#/estimate?id=03636d4199a0e931a35772d9c412fcbb823fa5f6)
+
+# Microservices Routing using Ingress
+
+Currently, our frontend and backend uses nginx in the frontend docker container to route backend API requests to the backend. This requires several hops from frontend to the backend and is not scalable in the long run when handling more routes. Our previous example was designed this way to showcase a simple example using just basic a single LoadBalancer Service type and two deployments for front end and a backend. There is another way of configuring routing that will simplify the setup of our workload, this is called Ingress. Think of ingress as a network layer component which can handle routing that is decoupled from our application configuration. In this example we will route all requests using the request path `http://somehost/hello` to our backend service while the rest will go to our frontend service.
+
+## Enable Ingress addon
+
+1. Enable Ingress 
+   ```shell
+   minikube addons enable ingress
+   ```
+2. Check Ingress installation
+   ```shell
+   kubectl get pods -n ingress-nginx
+   ```
+3. Deploy our workload
+   ```
+   kubectl apply -f ./basics-ingress/
+   ```
+4. Get IP address of your Ingress. Copy the IP address under ADDRESS column.
+   ```
+   kubectl get ingress
+   ```
+5. Open your browser `http://<copied ip address>`. You should be able to see the frontend screen and submit a name.
+
+* References
+  * https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/

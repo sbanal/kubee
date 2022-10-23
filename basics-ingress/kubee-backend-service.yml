@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubee-backend
+  labels:
+    name: kubee-backend
+    app: kubee-app
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: kubee-backend-pod
+    app: kubee-app
