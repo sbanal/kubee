@@ -317,3 +317,29 @@ Currently, our frontend and backend uses nginx in the frontend docker container 
 
 * References
   * https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+
+# Microservices with Horizontal Pod Autoscaling (HPA)
+
+Currently, our kubernetes workload do not support horizontal scalability. It is just configured to create two pods (replicas) to handle all the requests. To scale the number of replicas, Kubernetes' Horizontal Pod Autoscaling (HPA) has to be configured. In the following steps, we will deploy a workload with HPA enabled and simulate a workload to increase the number of replicas used to handle the simulated load.
+
+Pre-requisite is to [install metrics-server](https://github.com/kubernetes-sigs/metrics-server#deployment).
+
+1. Deploy our workload
+   ```
+   kubectl apply -f ./basics-hpa/
+   ```
+2. Open a new terminal and simulate a load to our backend. You add more load by opening more terminal and running the command below. Just make sure to rename "load-generator" to a new name (e.g. load-generator2).
+   ```
+   kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.005; do wget -O- -S --post-data='{\"name\":\"stephen\"}' --header='Content-Type:application/json' http://kubee-backend:8080/hello; done"
+   ```
+   This will output wget logs and indicate an HTTP 200 success response. Keep it running while doing next step to observe HPA in action.
+3. On another terminal, check if our pods are scaling up
+   ```
+   kubectl get hpa --watch 
+   ```
+   You should see the Target percentage increase and the number of replicas increase when target is reached.
+4. To simulate the scaling down of the replicas, press CTRL-C to exit the load generator. Observe terminal in step 3 above. The replicas should decrease after a few minutes. 
+5. To delete the load-generator pod, execute command:
+   ```
+   kubectl delete pod load-generator
+   ```

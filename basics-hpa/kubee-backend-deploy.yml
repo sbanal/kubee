@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubee-backend-deploy
+  labels:
+    name: kubee-backend-deploy
+    app: kubee-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: kubee-backend-pod
+      app: kubee-app
+  template:
+    metadata:
+      name: kubee-backend-pod
+      labels:
+        name: kubee-backend-pod
+        app: kubee-app
+    spec:
+      containers:
+        - name: kubee-backend
+          image: sbanal/kubee-backend:latest
+          resources:
+            limits:
+              cpu: 100m
+            requests:
+              cpu: 100m
+          ports:
+            - containerPort: 8080

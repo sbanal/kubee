@@ -20,7 +20,12 @@ spec:
         app: kubee-app
     spec:
       containers:
-        - name: kubee-frontend
-          image: sbanal/kubee-frontend:latest
+        - name: kubee-frontend2
+          image: sbanal/kubee-frontend2:latest
+          resources:
+            limits:
+              cpu: 100m
+            requests:
+              cpu: 100m
           ports:
             - containerPort: 80
