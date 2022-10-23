@@ -320,7 +320,7 @@ Currently, our frontend and backend uses nginx in the frontend docker container 
 
 # Microservices with Horizontal Pod Autoscaling (HPA)
 
-Currently, our kubernetes workload do not support horizontal scalability. It is just configured to create two pods (replicas) to handle all the requests. To scale the number of replicas, Kubernetes' Horizontal Pod Autoscaling (HPA) has to be configured. In the following steps, we will deploy a workload with HPA enabled and simulate a workload to increase the number of replicas used to handle the simulated load.
+Currently, our kubernetes workload do not support horizontal scalability. It is just configured to create one replicas to handle all the requests. To scale the number of replicas up or down depending in workload, Kubernetes' Horizontal Pod Autoscaling (HPA) has to be configured. In the following steps, we will deploy a workload with HPA enabled and simulate a workload to increase the number of replicas used to handle the simulated load.
 
 Pre-requisite is to [install metrics-server](https://github.com/kubernetes-sigs/metrics-server#deployment).
 
